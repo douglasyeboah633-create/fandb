@@ -1,0 +1,22 @@
+{% extends 'base.html' %}{% load landpro_tags %}{% block title %}Payment Register · {{ BUSINESS_SHORT_NAME }}{% endblock %}{% block content %}
+<div class="page-header"><div><p class="eyebrow">LandPro workspace</p><h1>Payment Register</h1><p class="text-muted">{{ total_shown }} payment{{ total_shown|pluralize }} · {{ CURRENCY_SYMBOL }} {{ total_amount|money }} in total{% if query %} · matching “{{ query }}”{% endif %}</p></div><div class="actions"><a class="btn btn-light" href="{% url 'core:payment_create' %}">Full payment form</a><a class="btn btn-light" href="{% url 'core:receipt_list' %}">Receipts</a></div></div>
+<form method="get" class="filters"><label class="visually-hidden" for="register-q">Search a person, phone, receipt or plot</label><input class="form-control" id="register-q" name="q" value="{{ query }}" placeholder="Search a person, phone, receipt, plot or ID…"><select class="form-select" name="method" aria-label="Method of receipt"><option value="">All methods of receipt</option>{% for value,label in method_choices %}<option value="{{ value }}" {% if method == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><button class="btn btn-primary" type="submit">⌕ Search</button>{% if query or method %}<a class="btn btn-light" href="{% url 'core:payment_register' %}">Clear</a>{% endif %}</form>
+<form method="post" action="?{% querystring %}" novalidate>{% csrf_token %}{{ formset.management_form }}{% if formset.non_form_errors %}<div class="alert alert-danger">{{ formset.non_form_errors }}</div>{% endif %}{% if query and not total_shown %}<div class="alert alert-info">No payments match “{{ query }}”. Add a row below to record one.</div>{% endif %}
+<div class="card"><div class="table-responsive"><table class="table register-table" id="register-table">
+<thead><tr><th>Payment (customer / plot)</th><th>Amount</th><th>Date</th><th>Method of receipt</th><th>Receipt</th>{% if can_override %}<th>Above balance</th>{% endif %}<th class="no-print">Remove</th></tr></thead>
+<tbody id="register-rows" data-currency="{{ CURRENCY_SYMBOL }}">{% for form in formset %}<tr{% if form.errors %} class="row-error"{% endif %}>
+<td class="sale-cell">{{ form.id }}{{ form.sale }}{{ form.non_field_errors }}{{ form.sale.errors }}</td>
+<td class="amount-cell">{{ form.amount }}{{ form.amount.errors }}</td>
+<td class="date-cell">{{ form.payment_date }}{{ form.payment_date.errors }}</td>
+<td class="method-cell">{{ form.payment_method }}{{ form.payment_method.errors }}</td>
+<td class="receipt-cell">{% if form.instance.pk %}<a href="{% url 'core:receipt_print' form.instance.pk %}" target="_blank" rel="noopener">{{ form.instance.receipt_number }}</a>{% else %}<span class="text-muted">on save</span>{% endif %}</td>
+{% if can_override %}<td class="override-cell">{{ form.allow_overpayment }}</td>{% endif %}
+<td class="remove-cell no-print">{{ form.DELETE }}{{ form.DELETE.errors }}</td>
+</tr>{% endfor %}</tbody>
+<tfoot><tr><th colspan="2" class="text-end">Total this page</th><th id="register-live-total">{{ CURRENCY_SYMBOL }} {{ page_amount|money }}</th><th colspan="{% if can_override %}4{% else %}3{% endif %}"></th></tr></tfoot>
+</table></div></div>
+<div class="register-actions no-print"><button class="btn btn-primary" type="submit">✔ Save changes</button><button class="btn btn-light" type="button" id="register-add-row">+ Add row</button><span class="register-help">Type into any row to add or correct a payment. Tick <strong>Remove</strong> and save to delete a row.{% if not can_delete %} Deletions need an administrator.{% endif %}</span></div>
+</form>
+{% include 'core/pagination.html' %}
+<template id="register-empty-row"><table><tbody><tr><td class="sale-cell">{{ formset.empty_form.id }}{{ formset.empty_form.sale }}</td><td class="amount-cell">{{ formset.empty_form.amount }}</td><td class="date-cell">{{ formset.empty_form.payment_date }}</td><td class="method-cell">{{ formset.empty_form.payment_method }}</td><td class="receipt-cell"><span class="text-muted">on save</span></td>{% if can_override %}<td class="override-cell">{{ formset.empty_form.allow_overpayment }}</td>{% endif %}<td class="remove-cell no-print">{{ formset.empty_form.DELETE }}</td></tr></tbody></table></template>
+{% endblock %}

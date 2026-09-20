@@ -1,0 +1,52 @@
+.section-grid>*{min-width:0}.stat strong{overflow-wrap:anywhere}.receipt-header{text-align:center;margin-bottom:24px}.receipt-signatures{margin-top:36px;display:flex;gap:24px;flex-wrap:wrap}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+/* Records table: one flat grid for all record keeping */
+.records-summary{display:flex;gap:24px;flex-wrap:wrap;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 20px;margin-bottom:18px;font-size:13px}
+.records-summary strong{color:var(--forest)}
+.records-summary .owing strong{color:#b02a37}
+.record-table th,.record-table td{padding:8px 10px;vertical-align:top;white-space:nowrap}
+.record-table thead th{position:sticky;top:0;z-index:2}
+.record-table .no-cell{padding-top:15px;font-size:12px;color:var(--muted)}
+.record-table .no-cell a{font-weight:600}
+.record-table input.form-control-sm,.record-table select.form-select-sm{font-size:13px;padding:4px 7px;min-width:0}
+.record-table .date-cell input{width:9.5rem}
+.record-table .name-cell input{width:13rem}
+.record-table .phone-cell input{width:9rem}
+.record-table .id-cell input{width:10rem}
+.record-table .plot-cell input{width:6.5rem}
+.record-table .location-cell input{width:12rem}
+.record-table .size-cell input{width:6.5rem}
+.record-table .unit-cell select{width:8.5rem}
+.record-table .price-cell input,.record-table .paid-cell input{width:9rem}
+.record-table .method-cell select{width:10.5rem}
+.record-table .notes-cell textarea{width:14rem;min-height:2.3rem;font-size:13px;padding:4px 7px}
+.record-table .balance-cell{padding-top:14px;font-weight:600;color:var(--forest)}
+.record-table .receipt-cell{padding-top:14px;font-size:12px}
+.record-table .remove-cell{text-align:center;padding-top:13px}
+.record-table tfoot th{background:#f2f6f3;font-size:13px;letter-spacing:0;text-transform:none;color:var(--ink)}
+.record-table tfoot th#rec-total-balance{color:#b02a37}
+.record-table tr.row-error td{background:#fff5f5}
+.record-table .errorlist{margin:4px 0 0;padding-left:0;color:#b02a37;font-size:11px;list-style:none}
+.record-table .badge{display:block;margin-top:4px;font-size:10px;text-align:center}
+/* Records: add-row tools and one simple Save button that is always in view */
+.table-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:14px 0 0}
+.save-space{height:86px}
+.save-bar{position:fixed;left:246px;right:0;bottom:0;z-index:45;display:flex;align-items:center;justify-content:center;gap:16px;background:#fffffff2;border-top:1px solid var(--line);padding:12px 22px;box-shadow:0 -6px 18px #10241b12}
+.save-button{font-size:16px;font-weight:700;letter-spacing:.6px;padding:12px 42px;border-radius:9px}
+.save-button:disabled{opacity:.85}
+.save-button-active{background:#0f5c3f;border-color:#0f5c3f;box-shadow:0 0 0 4px #0f5c3f22}
+.save-note{font-size:12px;color:var(--muted);max-width:660px}
+@media(max-width:900px){.save-bar{left:0;padding:10px 14px}.save-note{display:none}.save-button{width:100%;padding:12px 20px}.save-space{height:78px}}
+/* Payment register: one writable payment table */
+.register-table th,.register-table td{padding:10px 12px;vertical-align:top}
+.register-table .sale-cell select{min-width:16rem;max-width:24rem}
+.register-table .amount-cell input{width:9rem;text-align:right}
+.register-table .date-cell input{width:9.75rem}
+.register-table .method-cell select{width:11rem}
+.register-table .receipt-cell{padding-top:17px;font-size:12px;white-space:nowrap}
+.register-table .remove-cell,.register-table .override-cell{text-align:center;padding-top:16px}
+.register-table tfoot th{background:#f2f6f3;font-size:13px;letter-spacing:0;text-transform:none;color:var(--ink)}
+.register-table tfoot th#register-live-total{color:var(--green);font-weight:700}
+.register-table tr.row-error td{background:#fff5f5}
+.register-table .errorlist{margin:5px 0 0;padding-left:0;color:#b02a37;font-size:12px;list-style:none}
+.register-actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:18px 0 8px}
+.register-help{font-size:12px;color:var(--muted)}

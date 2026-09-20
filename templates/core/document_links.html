@@ -1,0 +1,1 @@
+{% for document in documents %}<a class="py-2 border-bottom" href="{% url 'core:document_download' document.pk %}">{{ document.title }}</a>{% empty %}<p>No documents linked.</p>{% endfor %}<a class="mt-3" href="{% url 'core:document_create' %}">Upload document</a>

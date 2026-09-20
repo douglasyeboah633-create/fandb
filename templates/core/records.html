@@ -1,0 +1,53 @@
+{% extends 'base.html' %}{% load landpro_tags %}{% block title %}Records · {{ BUSINESS_SHORT_NAME }}{% endblock %}{% block content %}
+<div class="page-header"><div><p class="eyebrow">LandPro workspace</p><h1>Records</h1><p class="text-muted">Keep every land record in one table — type straight into the rows, then click <strong>Save</strong>.</p></div><div class="actions no-print"><a class="btn btn-light" href="{% url 'core:records' %}?size=500">Show more space</a></div></div>
+<div class="records-summary"><span><strong>{{ total_records }}</strong> record{{ total_records|pluralize }}{% if query %} matching “{{ query }}”{% endif %}</span><span>Total price <strong>{{ CURRENCY_SYMBOL }} {{ total_price_all|money }}</strong></span><span>Received <strong>{{ CURRENCY_SYMBOL }} {{ total_paid_all|money }}</strong></span><span class="owing">Balance <strong>{{ CURRENCY_SYMBOL }} {{ total_balance_all|money }}</strong></span></div>
+<form method="get" class="filters"><label class="visually-hidden" for="records-q">Search records</label><input class="form-control" id="records-q" name="q" value="{{ query }}" placeholder="Search a person, phone, ID, plot, receipt or note…"><select class="form-select" name="method" aria-label="Method of receipt"><option value="">All methods of receipt</option>{% for value,label in method_choices %}<option value="{{ value }}" {% if method == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><select class="form-select" name="size" aria-label="Rows per page" data-autosubmit>{% for option in size_options %}<option value="{{ option }}" {% if size == option %}selected{% endif %}>{{ option }} rows per page</option>{% endfor %}</select><button class="btn btn-primary" type="submit">⌕ Search</button>{% if query or method %}<a class="btn btn-light" href="{% url 'core:records' %}">Clear</a>{% endif %}</form>
+{% if query and not total_records %}<div class="alert alert-info">No records match “{{ query }}”. Add a row below to keep one.</div>{% endif %}
+<form method="post" action="?{% querystring %}" class="save-guard" novalidate>{% csrf_token %}{{ formset.management_form }}{% if formset.non_form_errors %}<div class="alert alert-danger">{{ formset.non_form_errors }}</div>{% endif %}
+<div class="table-tools no-print"><button class="btn btn-light btn-sm" type="button" id="records-add-row">+ Add row</button><button class="btn btn-light btn-sm" type="button" id="records-add-rows" data-rows="5">+ Add 5 rows</button><span class="register-help">Need more space? Add rows here, or pick more “rows per page” above.</span></div>
+<div class="card"><div class="table-responsive"><table class="table record-table" id="record-table">
+<thead><tr><th class="no-cell">No.</th><th>Date</th><th>Buyer / customer</th><th>Phone</th><th>Ghana card / ID</th><th>Plot no.</th><th>Location / community</th><th>Size</th><th>Unit</th><th>Total price</th><th>Amount paid</th><th>Balance</th><th>Method of receipt</th><th>Receipt no.</th><th>Notes / details</th><th class="no-print">Remove</th></tr></thead>
+<tbody id="record-rows" data-currency="{{ CURRENCY_SYMBOL }}">{% for form in formset %}<tr{% if form.errors %} class="row-error"{% endif %}>
+<td class="no-cell">{{ form.id }}{% if form.instance.pk %}<a href="{% url 'core:record_receipt' form.instance.pk %}" target="_blank" rel="noopener">{{ form.instance.record_number }}</a>{% else %}<span class="text-muted">{{ forloop.counter0|add:page_obj.start_index }}</span>{% endif %}</td>
+<td class="date-cell">{{ form.record_date }}{{ form.record_date.errors }}{{ form.non_field_errors }}</td>
+<td class="name-cell">{{ form.buyer_name }}{{ form.buyer_name.errors }}</td>
+<td class="phone-cell">{{ form.phone }}{{ form.phone.errors }}</td>
+<td class="id-cell">{{ form.id_number }}{{ form.id_number.errors }}</td>
+<td class="plot-cell">{{ form.plot_number }}{{ form.plot_number.errors }}</td>
+<td class="location-cell">{{ form.location }}{{ form.location.errors }}</td>
+<td class="size-cell">{{ form.land_size }}{{ form.land_size.errors }}</td>
+<td class="unit-cell">{{ form.size_unit }}{{ form.size_unit.errors }}</td>
+<td class="price-cell">{{ form.total_price }}{{ form.total_price.errors }}</td>
+<td class="paid-cell">{{ form.amount_paid }}{{ form.amount_paid.errors }}</td>
+<td class="balance-cell" data-balance><span class="row-balance">—</span>{% if form.instance.pk %}<span class="badge bg-{{ form.instance.payment_status_badge }}">{{ form.instance.payment_status_display }}</span>{% endif %}</td>
+<td class="method-cell">{{ form.payment_method }}{{ form.payment_method.errors }}</td>
+<td class="receipt-cell">{% if form.instance.pk %}<a href="{% url 'core:record_receipt' form.instance.pk %}" target="_blank" rel="noopener">{{ form.instance.receipt_number }}</a>{% else %}<span class="text-muted">on save</span>{% endif %}</td>
+<td class="notes-cell">{{ form.notes }}{{ form.notes.errors }}</td>
+<td class="remove-cell no-print">{{ form.DELETE }}{{ form.DELETE.errors }}</td>
+</tr>{% endfor %}</tbody>
+<tfoot><tr><th colspan="9" class="text-end">Totals this page</th><th id="rec-total-price">{{ CURRENCY_SYMBOL }} {{ page_total|money }}</th><th id="rec-total-paid">{{ CURRENCY_SYMBOL }} {{ page_paid|money }}</th><th id="rec-total-balance">{{ CURRENCY_SYMBOL }} {{ page_balance|money }}</th><th colspan="4"></th></tr></tfoot>
+</table></div></div>
+{% if not can_delete %}<p class="register-help no-print">Tick <strong>Remove</strong> and save to delete a row — deletions need an administrator.</p>{% endif %}
+<div class="save-space no-print" aria-hidden="true"></div>
+<div class="save-bar no-print"><button class="btn btn-primary save-button" type="submit">✔ Save</button><span class="save-note">Click <strong>Save</strong> when you finish the entries — every row on this page is saved. You can keep changing rows and click Save again any time.</span></div>
+</form>
+{% include 'core/pagination.html' %}
+<template id="record-empty-row"><table><tbody><tr>
+<td class="no-cell">{{ formset.empty_form.id }}</td>
+<td class="date-cell">{{ formset.empty_form.record_date }}</td>
+<td class="name-cell">{{ formset.empty_form.buyer_name }}</td>
+<td class="phone-cell">{{ formset.empty_form.phone }}</td>
+<td class="id-cell">{{ formset.empty_form.id_number }}</td>
+<td class="plot-cell">{{ formset.empty_form.plot_number }}</td>
+<td class="location-cell">{{ formset.empty_form.location }}</td>
+<td class="size-cell">{{ formset.empty_form.land_size }}</td>
+<td class="unit-cell">{{ formset.empty_form.size_unit }}</td>
+<td class="price-cell">{{ formset.empty_form.total_price }}</td>
+<td class="paid-cell">{{ formset.empty_form.amount_paid }}</td>
+<td class="balance-cell" data-balance><span class="row-balance">—</span></td>
+<td class="method-cell">{{ formset.empty_form.payment_method }}</td>
+<td class="receipt-cell"><span class="text-muted">on save</span></td>
+<td class="notes-cell">{{ formset.empty_form.notes }}</td>
+<td class="remove-cell no-print">{{ formset.empty_form.DELETE }}</td>
+</tr></tbody></table></template>
+{% endblock %}

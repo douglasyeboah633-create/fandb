@@ -1,0 +1,9 @@
+{% extends 'base.html' %}{% load landpro_tags %}{% block title %}Receipt {{ record.receipt_number }} · {{ BUSINESS_SHORT_NAME }}{% endblock %}{% block content %}
+<div class="page-header no-print"><h1>Record receipt</h1><div class="actions"><button class="btn btn-primary" data-print>Print receipt</button><a class="btn btn-light" href="{% url 'core:records' %}">Back to records</a></div></div>
+<article class="receipt card card-body"><header class="receipt-header"><h2>{{ business.name }}</h2><p>{{ business.address }}<br>{{ business.phone }} · {{ business.email }}</p><h3>LAND RECORD RECEIPT</h3><p><strong>{{ record.receipt_number }}</strong> · {{ record.record_date }}<br>Record no. {{ record.record_number }}</p></header>
+<dl class="detail-grid"><div><dt>Received from</dt><dd>{{ record.buyer_name }}<br>{{ record.phone|default:'—' }}{% if record.id_number %}<br>ID: {{ record.id_number }}{% endif %}</dd></div><div><dt>Plot</dt><dd>{{ record.plot_number|default:'—' }}<br>{{ record.location|default:'—' }}</dd></div><div><dt>Size</dt><dd>{{ record.size_display }}</dd></div><div><dt>Method of receipt</dt><dd>{{ record.get_payment_method_display }}</dd></div></dl>
+<table class="table"><tbody><tr><th>Total price</th><td>{% if record.total_price is None %}—{% else %}{{ business.currency }} {{ record.total_price|money }}{% endif %}</td></tr><tr><th>Amount received</th><td><strong>{{ business.currency }} {{ record.amount_paid|money }}</strong></td></tr><tr><th>Balance remaining</th><td>{% if record.balance is None %}—{% else %}{{ business.currency }} {{ record.balance|money }}{% endif %}</td></tr><tr><th>Status</th><td>{{ record.payment_status_display }}</td></tr></tbody></table>
+{% if record.notes %}<p>{{ record.notes|linebreaksbr }}</p>{% endif %}
+<div class="receipt-signatures"><p>Recorded by: {{ record.recorded_by.get_full_name|default:record.recorded_by.username|default:'—' }}</p><p>Signature: ____________________</p></div>
+</article>
+{% endblock %}
