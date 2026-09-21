@@ -1,6 +1,7 @@
 """Template context processors for branding information."""
 
 from django.conf import settings
+from django.db import OperationalError, ProgrammingError
 
 from .models import Setting, get_profile
 
@@ -10,8 +11,16 @@ def branding(request):
 
     Database values (editable from the Settings page) take precedence over
     the values in settings.py.
+
+    On a fresh serverless deploy the database may not be migrated yet, so a
+    missing ``core_setting`` table must not crash every page (Vercel reports
+    that as ``500 FUNCTION_INVOCATION_FAILED``). Fall back to settings.py
+    values until migrations have run.
     """
-    values = {row.key: row.value for row in Setting.objects.all()}
+    try:
+        values = {row.key: row.value for row in Setting.objects.all()}
+    except (OperationalError, ProgrammingError):
+        values = {}
 
     def pick(key, fallback):
         value = values.get(key)

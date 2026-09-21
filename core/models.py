@@ -102,10 +102,20 @@ class UserProfile(models.Model):
 
 
 def get_profile(user):
-    """Return the profile for a user, or None for anonymous users."""
+    """Return the profile for a user, or None for anonymous users.
+
+    On a fresh serverless deploy the database may not be migrated yet, so a
+    missing ``core_userprofile`` table must not crash every page (Vercel
+    reports that as ``500 FUNCTION_INVOCATION_FAILED``).
+    """
+    from django.db import OperationalError, ProgrammingError
+
     if not user or not user.is_authenticated:
         return None
-    profile, _ = UserProfile.objects.get_or_create(user=user)
+    try:
+        profile, _ = UserProfile.objects.get_or_create(user=user)
+    except (OperationalError, ProgrammingError):
+        return None
     return profile
 
 

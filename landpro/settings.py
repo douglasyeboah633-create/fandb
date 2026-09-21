@@ -217,7 +217,11 @@ STORAGES = {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        # Non-manifest storage: on serverless hosts (Vercel) a missing or
+        # stale staticfiles.json manifest turns every page into a 500
+        # (FUNCTION_INVOCATION_FAILED). Compressed without manifest still
+        # serves compressed assets via WhiteNoise, minus content hashing.
+        "BACKEND": "whitenoise.storage.CompressedStaticFilesStorage",
     },
 }
 
