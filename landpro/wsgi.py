@@ -15,20 +15,10 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'landpro.settings')
 
 application = get_wsgi_application()
 
-# --- Serverless cold-start: run migrations once per filesystem ----------------
-# Vercel's function filesystem is read-only outside /tmp and rebuilt on every
-# deploy, so there is no build step where `migrate` can run against the /tmp
-# SQLite fallback. Without this, the first request hits missing tables
-# (OperationalError) and Vercel reports 500 FUNCTION_INVOCATION_FAILED.
-# Guarded by a marker file so a warm instance only migrates once.
-if os.getenv("VERCEL", "").strip() == "1" and not os.getenv("DATABASE_URL", "").strip():
-    _marker = "/tmp/landpro-migrated"
-    if not os.path.exists(_marker):
-        try:
-            from django.core.management import call_command
-
-            call_command("migrate", run_syncdb=True, interactive=False, verbosity=0)
-            with open(_marker, "w") as _f:
-                _f.write("ok")
-        except Exception:
-            pass
+# NOTE (Vercel): no auto-migrate here on purpose. Running `migrate` at import
+# time on a cold start trips the serverless function timeout and Vercel
+# reports it as 500 FUNCTION_INVOCATION_FAILED. The /tmp SQLite fallback is
+# only for rendering pages before DATABASE_URL is set - real deployments must
+# set DATABASE_URL (PostgreSQL) and run migrations against it, as DEPLOY.md
+# explains. Missing tables then surface as a normal Django error page (with a
+# clear "no such table" message) instead of a function crash.
