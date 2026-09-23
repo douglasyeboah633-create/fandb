@@ -275,8 +275,8 @@ if not DEBUG:
 # ---------------------------------------------------------------------------
 # Business / branding settings
 # ---------------------------------------------------------------------------
-BUSINESS_NAME = os.getenv("BUSINESS_NAME", "LandPro Records Management System")
-BUSINESS_SHORT_NAME = os.getenv("BUSINESS_SHORT_NAME", "LandPro")
+BUSINESS_NAME = os.getenv("BUSINESS_NAME", "ABI LAND")
+BUSINESS_SHORT_NAME = os.getenv("BUSINESS_SHORT_NAME", "ABI LAND")
 BUSINESS_TAGLINE = os.getenv("BUSINESS_TAGLINE", "Land Sales Records Management")
 BUSINESS_PHONE = os.getenv("BUSINESS_PHONE", "+233 00 000 0000")
 BUSINESS_EMAIL = os.getenv("BUSINESS_EMAIL", "info@landpro.example")

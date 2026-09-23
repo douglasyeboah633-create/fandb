@@ -4,7 +4,7 @@ from django.apps import AppConfig
 class CoreConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "core"
-    verbose_name = "LandPro Records"
+    verbose_name = "ABI LAND Records"
 
     def ready(self):
         # Register signal handlers (land status follows sales).

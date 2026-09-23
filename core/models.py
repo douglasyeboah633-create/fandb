@@ -646,7 +646,7 @@ class Setting(models.Model):
         return self.key
 
     DEFAULTS = {
-        "business_name": "LandPro Records Management System",
+        "business_name": "ABI LAND",
         "business_phone": "+233 00 000 0000",
         "business_email": "info@landpro.example",
         "business_address": "Accra, Ghana",

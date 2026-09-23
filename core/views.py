@@ -1917,7 +1917,7 @@ def settings_view(request):
 def _backup_payload():
     """Build a complete, restorable snapshot of the important records."""
     return {
-        "application": "LandPro Records Management System",
+        "application": Setting.get("business_name"),
         "generated_at": timezone.localtime().isoformat(),
         "business": business_info(),
         "counts": {

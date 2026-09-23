@@ -1,5 +1,6 @@
 """Django admin registrations (a secondary, power-user interface)."""
 
+from django.conf import settings
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
@@ -29,6 +30,11 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+
+# Branding for the Django admin, kept in step with the public site (.env values).
+admin.site.site_header = f"{settings.BUSINESS_NAME} administration"
+admin.site.site_title = settings.BUSINESS_SHORT_NAME
+admin.site.index_title = "Records administration"
 
 
 @admin.register(Customer)

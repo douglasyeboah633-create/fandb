@@ -1,4 +1,4 @@
-"""Create or update a LandPro administrator without any prompts.
+"""Create or update an ABI LAND administrator without any prompts.
 
 Cloud hosts usually give you no interactive terminal, so this command takes
 everything from options or environment variables:
@@ -46,7 +46,7 @@ class Command(BaseCommand):
             "--role", default="ADMIN",
             choices=[UserProfile.ROLE_ADMIN, UserProfile.ROLE_MANAGER,
                      UserProfile.ROLE_STAFF],
-            help="LandPro role for the account (default: ADMIN).",
+            help="ABI LAND role for the account (default: ADMIN).",
         )
         parser.add_argument(
             "--force", action="store_true",

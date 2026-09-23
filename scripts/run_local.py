@@ -1,4 +1,4 @@
-"""One-command launcher for the LandPro Records Management System.
+"""One-command launcher for the ABI LAND Records Management System.
 
 Prepares the environment on first run and starts the web server:
 
@@ -59,11 +59,11 @@ print('COUNTS users=%d customers=%d lands=%d' % (
 
 
 def info(message: str) -> None:
-    print(f"[LandPro] {message}")
+    print(f"[ABI LAND] {message}")
 
 
 def fail(message: str) -> NoReturn:
-    print(f"[LandPro] ERROR: {message}", file=sys.stderr)
+    print(f"[ABI LAND] ERROR: {message}", file=sys.stderr)
     raise SystemExit(1)
 
 
@@ -236,7 +236,7 @@ def start_server(port: int, open_browser: bool) -> int:
     if actual != port:
         info(f"Port {port} is busy; using {actual} instead.")
     url = f"http://127.0.0.1:{actual}/"
-    info(f"Starting LandPro on {url}  (press Ctrl+C to stop)")
+    info(f"Starting ABI LAND on {url}  (press Ctrl+C to stop)")
     process = subprocess.Popen(
         [
             str(VENV_PYTHON), "manage.py", "runserver",
@@ -259,7 +259,7 @@ def start_server(port: int, open_browser: bool) -> int:
                 time.sleep(0.25)
         else:
             fail("The server did not become ready in time; see above.")
-        info("LandPro is running. Open " + url + " in your browser.")
+        info("ABI LAND is running. Open " + url + " in your browser.")
         info(
             "Demo sign-in: admin / Admin@12345  |  manager / Admin@12345"
             "  |  staff / Staff@12345"
@@ -282,7 +282,7 @@ def start_server(port: int, open_browser: bool) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Prepare and start the LandPro web application.",
+        description="Prepare and start the ABI LAND web application.",
     )
     parser.add_argument(
         "--port", type=int, default=DEFAULT_PORT,
@@ -306,7 +306,7 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    print("LandPro Records Management System - one-step launcher")
+    print("ABI LAND Records Management System - one-step launcher")
     print(f"Project folder: {ROOT}")
     ensure_virtualenv()
     ensure_dependencies()

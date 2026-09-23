@@ -91,7 +91,7 @@ class Command(BaseCommand):
 
     # ------------------------------------------------------------------
     def create_settings(self):
-        Setting.set("business_name", "LandPro Records Management System")
+        Setting.set("business_name", "ABI LAND")
         Setting.set("business_phone", "+233 24 000 0000")
         Setting.set("business_email", "info@landpro.example")
         Setting.set("business_address", "12 Independence Avenue, Accra, Ghana")

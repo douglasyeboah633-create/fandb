@@ -1,13 +1,13 @@
 @echo off
 rem ---------------------------------------------------------------
-rem LandPro Records Management System - one-click Windows launcher
+rem ABI LAND Records Management System - one-click Windows launcher
 rem Double-click this file to set up and start the web application.
 rem ---------------------------------------------------------------
 setlocal EnableExtensions
 cd /d "%~dp0"
-title LandPro Records Management System
+title ABI LAND Records Management System
 echo.
-echo   LandPro Records Management System
+echo   ABI LAND Records Management System
 echo   ---------------------------------
 echo.
 
@@ -31,9 +31,9 @@ if not defined PYEXE (
 set "RC=%ERRORLEVEL%"
 echo.
 if "%RC%"=="0" (
-    echo LandPro stopped. Start it again any time with start-landpro.bat
+    echo ABI LAND stopped. Start it again any time with start-landpro.bat
 ) else (
-    echo LandPro exited with code %RC%. Review the messages above or see README.md
+    echo ABI LAND exited with code %RC%. Review the messages above or see README.md
 )
 echo.
 pause
