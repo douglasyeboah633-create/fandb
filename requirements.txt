@@ -1,4 +1,4 @@
-# LandPro Records Management System - Python dependencies
+# ABI LAND Records Management System - Python dependencies
 Django==6.1.1
 dj-database-url==3.1.2
 python-dotenv==1.2.3

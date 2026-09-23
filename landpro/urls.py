@@ -1,4 +1,4 @@
-"""URL configuration for the LandPro Records Management System."""
+"""URL configuration for the ABI LAND Records Management System."""
 
 from django.contrib import admin
 from django.urls import include, path

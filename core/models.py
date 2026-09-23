@@ -1,4 +1,4 @@
-"""Database models for the LandPro Records Management System.
+"""Database models for the ABI LAND Records Management System.
 
 Tables: users (Django auth) + user profiles, customers, lands, sales,
 payments, documents, audit logs, application settings and the flat

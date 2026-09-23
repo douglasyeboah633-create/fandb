@@ -1,4 +1,4 @@
-# Deploying LandPro (and fixing the `404 NOT_FOUND`)
+# Deploying ABI LAND (and fixing the `404 NOT_FOUND`)
 
 > **You must redeploy after pulling this fix.** Vercel only picks up code
 > changes on a new deployment — go to **Deployments → … → Redeploy**, or
@@ -70,9 +70,9 @@ These live in the Vercel dashboard under **Project → Settings → General**
 - [ ] **Environment variables** are set (Project → Settings →
       Environment Variables): at minimum `DJANGO_SECRET_KEY` (long random
       string), `DJANGO_DEBUG=False`, `DJANGO_ALLOWED_HOSTS` (your exact
-      deployment domain, e.g. `landpro-xyz.vercel.app`), and
+      deployment domain, e.g. `abiland-xyz.vercel.app`), and
       `DJANGO_CSRF_TRUSTED_ORIGINS` (the same domain with `https://` in
-      front, e.g. `https://landpro-xyz.vercel.app` — CSRF origins take no
+      front, e.g. `https://abiland-xyz.vercel.app` — CSRF origins take no
       wildcards, so the app cannot guess this for you). The app
       auto-accepts `*.vercel.app` hosts for *serving* pages when it sees
       `VERCEL=1`, but signing in needs those two exact values.
@@ -97,7 +97,7 @@ A green Django build where `/login/` renders the sign-in page means the
 cd "C:\Users\MacBook Pro\Desktop\land"
 git init
 git add .
-git commit -m "LandPro records application"
+git commit -m "ABI LAND records application"
 git branch -M main
 git remote add origin https://github.com/<you>/<repo>.git
 git push -u origin main
@@ -196,12 +196,12 @@ takes a few seconds; your data stays safe in PostgreSQL.
 |---|---|---|
 | `DJANGO_SECRET_KEY` | `k9f…` (50+ characters) | Session/CSRF signing. Keep private |
 | `DJANGO_DEBUG` | `False` | Never `True` on a public site |
-| `DJANGO_ALLOWED_HOSTS` | `landpro.example.com,www.landpro.example.com` | Accepted host names |
-| `DJANGO_CSRF_TRUSTED_ORIGINS` | `https://landpro.example.com` | Needed for signing in over HTTPS |
+| `DJANGO_ALLOWED_HOSTS` | `abiland.example.com,www.abiland.example.com` | Accepted host names |
+| `DJANGO_CSRF_TRUSTED_ORIGINS` | `https://abiland.example.com` | Needed for signing in over HTTPS |
 | `DATABASE_URL` | `postgres://user:pass@host:5432/db` | PostgreSQL; omit to use SQLite |
 | `DJANGO_SECURE_SSL_REDIRECT` | `True` | Forces HTTPS (already the default when DEBUG is off) |
 | `DJANGO_TIME_ZONE` | `Africa/Accra` | Local dates and times |
-| `BUSINESS_NAME`, `BUSINESS_PHONE`, `BUSINESS_EMAIL`, `BUSINESS_ADDRESS`, `CURRENCY_SYMBOL` | `LandPro…`, `+233…`, `GHS` | Shown on the site and receipts (also editable under Settings) |
+| `BUSINESS_NAME`, `BUSINESS_PHONE`, `BUSINESS_EMAIL`, `BUSINESS_ADDRESS`, `CURRENCY_SYMBOL` | `ABI LAND…`, `+233…`, `GHS` | Shown on the site and receipts (also editable under Settings) |
 | `DJANGO_ADMIN_USERNAME` / `DJANGO_ADMIN_PASSWORD` | `admin` / strong password | Used by `python manage.py create_admin` |
 
 ## Your local records do not travel with the code

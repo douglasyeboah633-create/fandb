@@ -1,4 +1,4 @@
-"""URL routes for the LandPro Records Management System."""
+"""URL routes for the ABI LAND Records Management System."""
 
 from django.urls import path
 

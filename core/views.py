@@ -1,4 +1,4 @@
-"""Views for the LandPro Records Management System.
+"""Views for the ABI LAND Records Management System.
 
 Every view is protected by authentication and, where required, by role
 based permission checks. All record changes are written to the audit trail.

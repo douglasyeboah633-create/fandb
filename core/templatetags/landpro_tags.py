@@ -1,4 +1,4 @@
-"""Template filters and tags used across LandPro templates."""
+"""Template filters and tags used across ABI LAND templates."""
 
 from django import template
 from django.conf import settings

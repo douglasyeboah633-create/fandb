@@ -1,4 +1,4 @@
-# LandPro Records Management System
+# ABI LAND Records Management System
 
 Project: `C:\Users\MacBook Pro\Desktop\land`
 
@@ -37,10 +37,10 @@ For a clean database:
 
 ```powershell
 & '.\.venv\Scripts\python.exe' manage.py createsuperuser
-& '.\.venv\Scripts\python.exe' manage.py shell -c "from django.contrib.auth.models import User; from core.models import get_profile; u=User.objects.filter(is_superuser=True).earliest('id'); p=get_profile(u); p.role='ADMIN'; p.save(); print('LandPro administrator:',u.username)"
+& '.\.venv\Scripts\python.exe' manage.py shell -c "from django.contrib.auth.models import User; from core.models import get_profile; u=User.objects.filter(is_superuser=True).earliest('id'); p=get_profile(u); p.role='ADMIN'; p.save(); print('ABI LAND administrator:',u.username)"
 ```
 
-The application role is separate from Django's `is_staff`/`is_superuser` flags. LandPro Users manages application roles; `/django-admin/` requires Django admin permissions.
+The application role is separate from Django's `is_staff`/`is_superuser` flags. ABI LAND Users manages application roles; `/django-admin/` requires Django admin permissions.
 
 For **disposable demo databases only**:
 
